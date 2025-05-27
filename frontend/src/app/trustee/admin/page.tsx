@@ -49,7 +49,7 @@ export default function VolunteerLightingUsage() {
   const [volunteers, setVolunteers] = useState<Volunteer[]>([]);
   const chartRef = useRef<ChartJS<"line">>(null);
 
-  const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/users`;
+  const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/users/`;
 
 
   useEffect(() => {
@@ -74,14 +74,7 @@ export default function VolunteerLightingUsage() {
   fetchVolunteers();
 }, []);
 
-  const handleDelete = async (id: number) => {
-    try {
-      await axios.delete(`${API_URL}${id}/`);
-      setVolunteers((prev) => prev.filter((v) => v.id !== id));
-    } catch (error) {
-      console.error("Error deleting volunteer:", error);
-    }
-  };
+  
 
   const filteredVolunteers = volunteers
     .filter((volunteer) =>
@@ -286,7 +279,7 @@ export default function VolunteerLightingUsage() {
                     EMAIL
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-800 uppercase tracking-wider">
-                    DELETE
+                    STATUS
                   </th>
                 </tr>
               </thead>
@@ -303,18 +296,13 @@ export default function VolunteerLightingUsage() {
                       {volunteer.email}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                      <button
-                        onClick={() => handleDelete(volunteer.id)}
-                        className="text-red-500 hover:text-red-700 font-semibold"
-                      >
-                        Delete
-                      </button>
+                      {volunteer.role}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-          </div>
+          </div>  
         </div>
       </div>
     </>

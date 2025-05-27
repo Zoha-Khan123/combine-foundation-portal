@@ -18,7 +18,7 @@ const VolunteersPage = () => {
   const [volunteers, setVolunteers] = useState<Volunteer[]>([]); // State to store fetched volunteers
 
   // API URL for your users
-  const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/users`;
+  const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/users/`;
   console.log("api",API_URL);
   
 

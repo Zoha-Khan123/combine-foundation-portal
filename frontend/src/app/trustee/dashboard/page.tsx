@@ -43,8 +43,9 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchVolunteers = async () => {
       try {
-        
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users`);
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/users/`
+        );
         const allUsers = response.data;
 
         // Filter only users with role 'volunteer'
@@ -84,43 +85,58 @@ export default function Dashboard() {
     fetchVolunteers();
   }, []);
 
-
-
-    //  fetch only current month volunteers from backend
-useEffect(() => {
-  const fetchVolunteers = async () => {
+  //  fetch only current month volunteers from backend
+ useEffect(() => {
+  const fetchCurrentMonthVolunteers = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/volunteers`);
-      const data = await res.json();
-      const volunteers = data.data;
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/`);
+      const allUsers = await res.json();
 
-      const currentMonth = new Date().getMonth() + 1; // Jan = 1
+      if (!Array.isArray(allUsers)) {
+        console.error("Invalid response structure");
+        return;
+      }
 
-      const totalVolunteers = volunteers.length;
+      const volunteers = allUsers.filter(
+        (user: Volunteer) => user.role?.toLowerCase() === "volunteer"
+      );
 
-      const currentMonthVolunteers = volunteers.filter((user: any) => {
-        const createdMonth = new Date(user.created_at).getMonth() + 1;
-        return createdMonth === currentMonth;
+      const now = new Date();
+      const currentMonth = now.getMonth();
+      const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+
+      const currentMonthVolunteers = volunteers.filter((user) => {
+        const created = new Date(user.created_at);
+        return created.getMonth() === currentMonth;
       });
 
-      const currentMonthCount = currentMonthVolunteers.length;
+      const lastMonthVolunteers = volunteers.filter((user) => {
+        const created = new Date(user.created_at);
+        return created.getMonth() === lastMonth;
+      });
 
+      const currentCount = currentMonthVolunteers.length;
+      const lastCount = lastMonthVolunteers.length;
+
+      // Calculate increase percentage compared to last month
       const percentage =
-        totalVolunteers === 0
-          ? "0"
-          : ((currentMonthCount / totalVolunteers) * 100).toFixed(2);
+        lastCount === 0
+          ? currentCount > 0
+            ? "100"
+            : "0"
+          : (((currentCount - lastCount) / lastCount) * 100).toFixed(2);
 
-      setVolunteersCount(currentMonthCount);
+      setVolunteersCount(currentCount);
       setVolunteersPercentage(percentage);
-      setTotalVolunteers(totalVolunteers); 
+      setTotalVolunteers(volunteers.length);
     } catch (error) {
-      console.error("Error fetching volunteers", error);
+      console.error("Error fetching current month volunteers:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  fetchVolunteers();
+  fetchCurrentMonthVolunteers();
 }, []);
 
 
@@ -154,18 +170,32 @@ useEffect(() => {
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
           <div className="bg-white text-gray-800 p-6 rounded-xl shadow-lg border border-gray-100">
-          <p className="text-2xl font-bold mb-5 text-gray-700">Volunteer Stats</p>
-          <p className="text-base text-gray-700 mb-2">
-            Total Volunteers: <span className="font-bold text-xl">{totalVolunteers}</span>
-          </p>
-          <p className="text-base text-gray-700 mb-2">
-            This Month: <span className="font-bold text-orange-500 text-xl">{volunteersCount}</span>
-          </p>
-          <p className="text-base text-gray-700">
-            <span className="ml-1 text-sm text-gray-500">Percentage of this month increase volunteers</span>
-          <span className="text-orange-500 font-bold"> {volunteersPercentage}%</span> 
-          </p>
-        </div>
+            <p className="text-2xl font-bold mb-5 text-gray-700">
+              Volunteer Stats
+            </p>
+            <p className="text-base text-gray-700 mb-2">
+              Total Volunteers:{" "}
+              <span className="font-bold text-xl">{volunteers.length}</span>
+            </p>
+            <p className="text-base text-gray-700 mb-2">
+              This Month:{" "}
+              <span className="font-bold text-orange-500 text-xl">
+                {monthlyData.find(
+                  (data) =>
+                    data.name ===
+                    new Date().toLocaleString("default", { month: "short" })
+                )?.uv || 0}
+              </span>
+            </p>
+
+            <p className="text-base text-gray-700">
+  <span className="ml-1 text-sm text-gray-500">
+    Percentage increase in volunteers this month:
+  </span>
+  <span className="text-orange-500 font-bold"> {volunteersPercentage}%</span>
+</p>
+
+          </div>
 
           <div className="bg-white p-6 rounded-xl shadow">
             <h2 className="text-lg font-semibold mb-2 text-gray-700">
@@ -216,11 +246,12 @@ useEffect(() => {
               <h2 className="text-lg font-semibold mb-2 text-gray-700">
                 Number of Beneficiaries
               </h2>
-              <p className="text-3xl font-bold text-orange-500">
+              <p className="text-3xl font-bold text-orange-500 ">
                 {volunteers.length}
               </p>
+              <span className=" py-10 text-3xl text-orange-500 font-bold text-center block"> {volunteersPercentage}%</span>
             </div>
-            <p className="text-green-600 font-medium">↑ 7.2%</p>
+            <p className="text-green-600 font-medium"></p>
           </div>
         </div>
       </div>

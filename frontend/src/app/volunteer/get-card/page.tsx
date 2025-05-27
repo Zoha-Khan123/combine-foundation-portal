@@ -66,7 +66,7 @@ export default function VolunteerCard() {
 
         // 2. Fetch all users from your API
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/users`
+          `${process.env.NEXT_PUBLIC_API_URL}/users/`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch users from API.");
