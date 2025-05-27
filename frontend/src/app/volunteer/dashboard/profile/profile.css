@@ -1,0 +1,147 @@
+.profile-container {
+    min-height: 100vh;
+    background-color:var(--bg);
+    padding: 2rem 1rem;
+    margin: 20px;
+  }
+  
+  .profile-wrapper {
+    display: flex;
+    padding: 10px;
+    background-color: var(--bg);
+    flex-direction: column;
+  }
+  
+  @media (min-width: 1024px) {
+    .profile-wrapper {
+      flex-direction: row;
+    }
+  }
+  
+  .profile-box {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    margin: 10px;
+    border-radius: 8px;
+    width: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  @media (min-width: 1024px) {
+    .profile-box {
+      width: 25%;
+    }
+  }
+  
+  .profile-content {
+    text-align: center;
+  }
+  
+  .avatar {
+    width: 100px;
+    height: 100px;
+    background-color: #d1d5db;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+  }
+  
+  .email {
+    color: #6b7280;
+    margin: 0.5rem 0 1rem;
+  }
+  
+  .info {
+    text-align: left;
+    font-size: 0.9rem;
+  }
+  
+  .info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 12px 0;
+    color: #374151;
+  }
+  
+  .main-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  @media (min-width: 1024px) {
+    .main-content {
+      width: 75%;
+    }
+  }
+  
+  .info-boxes {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  @media (min-width: 768px) {
+    .info-boxes {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  
+  .info-box {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+  }
+  
+  .value {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+  
+  .active-course {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  @media (min-width: 640px) {
+    .active-course {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+  
+  .text-muted {
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+  
+  .status-btn {
+    padding: 8px 16px;
+    border: 1px solid #000;
+    background: white;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  .status-btn:hover {
+    border: none;
+    color: #ffffff;
+    background-color: #ff5d15;
+  }
+  

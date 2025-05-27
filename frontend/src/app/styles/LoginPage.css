@@ -1,0 +1,306 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  font-family: "Poppins", sans-serif;
+}
+
+*{
+    color: black;
+}
+
+.error-text {
+  color: red;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.login-box {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-title {
+  color: #333;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  color: #333;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.form-input {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+  transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #ff5d15;
+}
+
+.login-button {
+  padding: 15px 100px;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #ff5d15;
+  border: none;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #e65513;
+}
+
+@media (max-width: 991px) {
+  .login-button {
+    padding: 15px 80px;
+  }
+
+  .login-box {
+    margin: 0 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .login-button {
+    padding: 15px 60px;
+  }
+
+  .login-box {
+    margin: 0 1rem;
+  }
+
+  .login-title {
+    font-size: 20px;
+  }
+}
+@media (max-width: 480px) {
+  .login-button {
+    padding: 15px 40px;
+  }
+
+  .login-box {
+    margin: 0 1rem;
+  }
+
+  .login-title {
+    font-size: 18px;
+  }
+}
+@media (max-width: 360px) {
+  .login-button {
+    padding: 15px 30px;
+  }
+
+  .login-box {
+    margin: 0 1rem;
+  }
+
+  .login-title {
+    font-size: 16px;
+  }
+}
+@media (max-width: 320px) {
+  .login-button {
+    padding: 15px 20px;
+  }
+
+  .login-box {
+    margin: 0 1rem;
+  }
+
+  .login-title {
+    font-size: 14px;
+  }
+}
+@media (max-width: 280px) {
+  .login-button {
+    padding: 15px 10px;
+  }
+
+  .login-box {
+    margin: 0 1rem;
+  }
+
+  .login-title {
+    font-size: 12px;
+  }
+}
+@media (max-width: 240px) {
+  .login-button {
+    padding: 15px 5px;
+  }
+
+  .login-box {
+    margin: 0 1rem;
+  }
+
+  .login-title {
+    font-size: 10px;
+  }
+}
+@media (max-width: 200px) {
+  .login-button {
+    padding: 15px 2px;
+  }
+
+  .login-box {
+    margin: 0 1rem;
+  }
+
+  .login-title {
+    font-size: 8px;
+  }
+}
+@media (max-width: 160px) {
+  .login-button {
+    padding: 15px 1px;
+  }
+
+  .login-box {
+    margin: 0 1rem;
+  }
+
+  .login-title {
+    font-size: 6px;
+  }
+}
+@media (max-width: 120px) {
+  .login-button {
+    padding: 15px 0;
+  }
+
+  .login-box {
+    margin: 0 1rem;
+  }
+
+  .login-title {
+    font-size: 4px;
+  }
+}
+@media (max-width: 100px) {
+  .login-button {
+    padding: 15px 0;
+  }
+
+  .login-box {
+    margin: 0 1rem;
+  }
+
+  .login-title {
+    font-size: 2px;
+  }
+}
+@media (max-width: 80px) {
+  .login-button {
+    padding: 15px 0;
+  }
+
+  .login-box {
+    margin: 0 1rem;
+  }
+
+  .login-title {
+    font-size: 1px;
+  }
+}
+@media (max-width: 60px) {
+  .login-button {
+    padding: 15px 0;
+  }
+
+  .login-box {
+    margin: 0 1rem;
+  }
+
+  .login-title {
+    font-size: 0px;
+  }
+}
+@media (max-width: 40px) {
+  .login-button {
+    padding: 15px 0;
+  }
+
+  .login-box {
+    margin: 0 1rem;
+  }
+
+  .login-title {
+    font-size: -2px;
+  }
+}
+@media (max-width: 20px) {
+  .login-button {
+    padding: 15px 0;
+  }
+
+  .login-box {
+    margin: 0 1rem;
+  }
+
+  .login-title {
+    font-size: -4px;
+  }
+}
+@media (max-width: 10px) {
+  .login-button {
+    padding: 15px 0;
+  }
+
+  .login-box {
+    margin: 0 1rem;
+  }
+
+  .login-title {
+    font-size: -6px;
+  }
+}
+@media (max-width: 5px) {
+  .login-button {
+    padding: 15px 0;
+  }
+
+  .login-box {
+    margin: 0 1rem;
+  }
+
+  .login-title {
+    font-size: -8px;
+  }
+}
