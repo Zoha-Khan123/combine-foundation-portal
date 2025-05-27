@@ -81,12 +81,13 @@ export default function VolunteerPage() {
   const [volunteers, setVolunteers] = useState<Volunteer[]>([]); // State for fetched volunteers
   const [, setMaleChartData] = useState<number[]>([]);
   const [, setFemaleChartData] = useState<number[]>([]);
-  const [, setChartLabels] = useState<string[]>([]);
   const [volunteersGraph, setVolunteersGraph] = useState<{ labels: string[]; maleData: number[]; femaleData: number[]  , totalVolunteer : number , growthPercentage : number }>({ labels: [], maleData: [], femaleData: [] , totalVolunteer : 0 , growthPercentage : 0 });
 
   const chartRef = useRef<ChartJS<"line">>(null);
   
   const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/users`; // Your API endpoint
+  console.log("API",API_URL);
+  
 
   // Function to get the Authorization header
   const getAuthHeaders = async () => {
@@ -104,92 +105,94 @@ export default function VolunteerPage() {
   };
 
   // --- Fetch Volunteers and calculate chart data on component mount ---
-  useEffect(() => {
-    const fetchVolunteersAndChartData = async () => {
-      setLoading(true); // Start loader
-      try {
-        const headers = await getAuthHeaders();
-        if (!headers) {
-          setLoading(false);
-          return; // Stop if no token is found
-        }
+  // useEffect(() => {
+  //   const fetchVolunteersAndChartData = async () => {
+  //     setLoading(true); // Start loader
+  //     try {
+  //       const headers = await getAuthHeaders();
+  //       if (!headers) {
+  //         setLoading(false);
+  //         return; // Stop if no token is found
+  //       }
 
-        const response = await axios.get(API_URL, { headers }); // Pass headers to axios.get
-        const allUsers: Volunteer[] = response.data; // Explicitly type allUsers
+  //       const response = await axios.get(API_URL, { headers }); // Pass headers to axios.get
+  //       console.log("resgss",response);
+        
+  //       const allUsers: Volunteer[] = response.data; // Explicitly type allUsers
 
-        // Filter only users with the role 'volunteer'
-        const onlyVolunteers: Volunteer[] = allUsers.filter(
-          (user) => user.role?.trim().toLowerCase() === "volunteer"
-        );
+  //       // Filter only users with the role 'volunteer'
+  //       const onlyVolunteers: Volunteer[] = allUsers.filter(
+  //         (user) => user.role?.trim().toLowerCase() === "volunteer"
+  //       );
 
-        setVolunteers(onlyVolunteers);
+  //       setVolunteers(onlyVolunteers);
 
-        // --- Calculate historical data for the chart (last 6 days) ---
-        const today = new Date();
-        // Normalize 'today' to UTC midnight for consistent comparison
-        today.setUTCHours(0, 0, 0, 0);
+  //       // --- Calculate historical data for the chart (last 6 days) ---
+  //       const today = new Date();
+  //       // Normalize 'today' to UTC midnight for consistent comparison
+  //       today.setUTCHours(0, 0, 0, 0);
 
-        const dailyCounts: {
-          [date: string]: { male: number; female: number };
-        } = {};
-        const generatedLabels: string[] = [];
-        const generatedMaleCounts: number[] = [];
-        const generatedFemaleCounts: number[] = [];
+  //       const dailyCounts: {
+  //         [date: string]: { male: number; female: number };
+  //       } = {};
+  //       const generatedLabels: string[] = [];
+  //       const generatedMaleCounts: number[] = [];
+  //       const generatedFemaleCounts: number[] = [];
 
-        // Generate dates for the last 6 days (including today)
-        for (let i = 5; i >= 0; i--) {
-          const date = new Date(today);
-          date.setUTCDate(today.getUTCDate() - i);
-          const formattedDate = formatDateToYYYYMMDD(date);
-          dailyCounts[formattedDate] = { male: 0, female: 0 };
-          generatedLabels.push(i === 0 ? "Current Day" : `Day -${i}`);
-        }
+  //       // Generate dates for the last 6 days (including today)
+  //       for (let i = 5; i >= 0; i--) {
+  //         const date = new Date(today);
+  //         date.setUTCDate(today.getUTCDate() - i);
+  //         const formattedDate = formatDateToYYYYMMDD(date);
+  //         dailyCounts[formattedDate] = { male: 0, female: 0 };
+  //         generatedLabels.push(i === 0 ? "Current Day" : `Day -${i}`);
+  //       }
 
-        // Count volunteers for each day
-        onlyVolunteers.forEach((vol) => {
-          if (vol.created_at) {
-            const volDate = new Date(vol.created_at);
-            // Normalize volunteer date to UTC midnight
-            volDate.setUTCHours(0, 0, 0, 0);
-            const formattedVolDate = formatDateToYYYYMMDD(volDate);
+  //       // Count volunteers for each day
+  //       onlyVolunteers.forEach((vol) => {
+  //         if (vol.created_at) {
+  //           const volDate = new Date(vol.created_at);
+  //           // Normalize volunteer date to UTC midnight
+  //           volDate.setUTCHours(0, 0, 0, 0);
+  //           const formattedVolDate = formatDateToYYYYMMDD(volDate);
 
-            // Check if this date is within our 6-day window
-            const daysDiff = Math.floor(
-              (today.getTime() - volDate.getTime()) / (1000 * 60 * 60 * 24)
-            );
-            if (daysDiff >= 0 && daysDiff <= 5) {
-              if (dailyCounts[formattedVolDate]) {
-                // Ensure the date key exists
-                if (vol.gender?.toLowerCase() === "male") {
-                  dailyCounts[formattedVolDate].male++;
-                } else if (vol.gender?.toLowerCase() === "female") {
-                  dailyCounts[formattedVolDate].female++;
-                }
-              }
-            }
-          }
-        });
+  //           // Check if this date is within our 6-day window
+  //           const daysDiff = Math.floor(
+  //             (today.getTime() - volDate.getTime()) / (1000 * 60 * 60 * 24)
+  //           );
+  //           if (daysDiff >= 0 && daysDiff <= 5) {
+  //             if (dailyCounts[formattedVolDate]) {
+  //               // Ensure the date key exists
+  //               if (vol.gender?.toLowerCase() === "male") {
+  //                 dailyCounts[formattedVolDate].male++;
+  //               } else if (vol.gender?.toLowerCase() === "female") {
+  //                 dailyCounts[formattedVolDate].female++;
+  //               }
+  //             }
+  //           }
+  //         }
+  //       });
 
-        // Sort dates chronologically and populate chart data
-        const sortedDates = Object.keys(dailyCounts).sort();
-        sortedDates.forEach((date) => {
-          generatedMaleCounts.push(dailyCounts[date].male);
-          generatedFemaleCounts.push(dailyCounts[date].female);
-        });
+  //       // Sort dates chronologically and populate chart data
+  //       const sortedDates = Object.keys(dailyCounts).sort();
+  //       sortedDates.forEach((date) => {
+  //         generatedMaleCounts.push(dailyCounts[date].male);
+  //         generatedFemaleCounts.push(dailyCounts[date].female);
+  //       });
 
-        setChartLabels(generatedLabels);
-        setMaleChartData(generatedMaleCounts);
-        setFemaleChartData(generatedFemaleCounts);
-      } catch (error) {
-        console.error("Error fetching volunteers:", error);
-        toast.error("Failed to fetch volunteer data.");
-      } finally {
-        setLoading(false);
-      }
-    };
+  //       setChartLabels(generatedLabels);
+  //       setMaleChartData(generatedMaleCounts);
+  //       setFemaleChartData(generatedFemaleCounts);
+  //     } catch (error) {
+  //       console.error("Error fetching volunteers:", error);
+  //       toast.error("Failed to fetch volunteer data.");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchVolunteersAndChartData();
-  }, []); // Empty dependency array means this runs once on component mount
+  //   fetchVolunteersAndChartData();
+  // }, []); // Empty dependency array means this runs once on component mount
 
   
     // --- Handle Delete Volunteer ---
@@ -379,6 +382,7 @@ useEffect(() => {
 
       // Step 5: Set to state (you'll use this in chartData)
       setVolunteersGraph({ labels, maleData, femaleData,totalVolunteer, growthPercentage});
+      setVolunteers(volunteers)
 
     } catch (error) {
       console.error("Error fetching volunteers", error);

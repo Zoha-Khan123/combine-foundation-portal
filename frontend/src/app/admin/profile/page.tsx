@@ -42,15 +42,24 @@ export default function Profile() {
     const fetchUserData = async () => {
       try {
         const token = Cookies.get("token");
-
+          console.log(token);
+          
         if (token) {
           const secret = new TextEncoder().encode(
             process.env.NEXT_PUBLIC_SECRET_KEY!
           );
           const { payload } = await jwtVerify(token, secret);
+          console.log("payload",payload);
+          
           const userEmail = payload.sub;
+          console.log("email",userEmail);
+          
 
+          console.log(`${process.env.NEXT_PUBLIC_API_URL}/users`);
+          
           const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`);
+          console.log("res",response);
+          
 
           if (!response.ok) {
             throw new Error("Failed to fetch users");
