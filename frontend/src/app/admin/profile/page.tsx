@@ -55,9 +55,9 @@ export default function Profile() {
           console.log("email",userEmail);
           
 
-          console.log(`${process.env.NEXT_PUBLIC_API_URL}/users`);
           
-          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`);
+          
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/`);
           console.log("res",response);
           
 

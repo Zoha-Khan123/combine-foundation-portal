@@ -85,7 +85,7 @@ export default function VolunteerPage() {
 
   const chartRef = useRef<ChartJS<"line">>(null);
   
-  const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/users`; // Your API endpoint
+  const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/users/`; // Your API endpoint
   console.log("API",API_URL);
   
 
