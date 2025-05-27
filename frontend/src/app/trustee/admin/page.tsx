@@ -49,10 +49,10 @@ export default function VolunteerLightingUsage() {
   const [volunteers, setVolunteers] = useState<Volunteer[]>([]);
   const chartRef = useRef<ChartJS<"line">>(null);
 
-  const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/users/`;
-
-
+  
+  
   useEffect(() => {
+  const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/users/`;
   const fetchVolunteers = async () => {
     try {
       const response = await axios.get(API_URL);

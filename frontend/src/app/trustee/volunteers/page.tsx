@@ -17,12 +17,12 @@ const VolunteersPage = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [volunteers, setVolunteers] = useState<Volunteer[]>([]); // State to store fetched volunteers
 
-  // API URL for your users
-  const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/users/`;
-  console.log("api",API_URL);
   
-
+  
   useEffect(() => {
+    // API URL for your users
+    const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/users/`;
+    console.log("api",API_URL);
     const fetchVolunteers = async () => {
       try {
         const response = await axios.get(API_URL);

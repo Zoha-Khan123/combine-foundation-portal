@@ -35,10 +35,10 @@ export default function Dashboard() {
   const [monthlyData, setMonthlyData] = useState<ChartData[]>([]);
   const [maleCount, setMaleCount] = useState(0);
   const [femaleCount, setFemaleCount] = useState(0);
-  const [volunteersCount, setVolunteersCount] = useState(0);
+  const [,setVolunteersCount] = useState(0);
   const [volunteersPercentage, setVolunteersPercentage] = useState("0");
-  const [loading, setLoading] = useState(true);
-  const [totalVolunteers, setTotalVolunteers] = useState(0);
+  const [,setLoading] = useState(true);
+  const [,setTotalVolunteers] = useState(0);
 
   useEffect(() => {
     const fetchVolunteers = async () => {
