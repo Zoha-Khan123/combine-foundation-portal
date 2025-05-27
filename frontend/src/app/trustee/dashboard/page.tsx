@@ -35,6 +35,10 @@ export default function Dashboard() {
   const [monthlyData, setMonthlyData] = useState<ChartData[]>([]);
   const [maleCount, setMaleCount] = useState(0);
   const [femaleCount, setFemaleCount] = useState(0);
+  const [volunteersCount, setVolunteersCount] = useState(0);
+  const [volunteersPercentage, setVolunteersPercentage] = useState("0");
+  const [loading, setLoading] = useState(true);
+  const [totalVolunteers, setTotalVolunteers] = useState(0);
 
   useEffect(() => {
     const fetchVolunteers = async () => {
@@ -80,6 +84,46 @@ export default function Dashboard() {
     fetchVolunteers();
   }, []);
 
+
+
+    //  fetch only current month volunteers from backend
+useEffect(() => {
+  const fetchVolunteers = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/volunteers`);
+      const data = await res.json();
+      const volunteers = data.data;
+
+      const currentMonth = new Date().getMonth() + 1; // Jan = 1
+
+      const totalVolunteers = volunteers.length;
+
+      const currentMonthVolunteers = volunteers.filter((user: any) => {
+        const createdMonth = new Date(user.created_at).getMonth() + 1;
+        return createdMonth === currentMonth;
+      });
+
+      const currentMonthCount = currentMonthVolunteers.length;
+
+      const percentage =
+        totalVolunteers === 0
+          ? "0"
+          : ((currentMonthCount / totalVolunteers) * 100).toFixed(2);
+
+      setVolunteersCount(currentMonthCount);
+      setVolunteersPercentage(percentage);
+      setTotalVolunteers(totalVolunteers); 
+    } catch (error) {
+      console.error("Error fetching volunteers", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchVolunteers();
+}, []);
+
+
   return (
     <div className="flex flex-col min-h-screen">
       <div className="lg:flex">
@@ -109,14 +153,19 @@ export default function Dashboard() {
 
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-          <div className="bg-white text-gray-800 p-6 rounded-xl">
-            <p className="text-lg font-semibold mb-2 text-gray-700">
-              Volunteers this month
-            </p>
-            <p className="text-3xl text-orange-500 font-bold">
-              {volunteers.length}
-            </p>
-          </div>
+          <div className="bg-white text-gray-800 p-6 rounded-xl shadow-lg border border-gray-100">
+          <p className="text-2xl font-bold mb-5 text-gray-700">Volunteer Stats</p>
+          <p className="text-base text-gray-700 mb-2">
+            Total Volunteers: <span className="font-bold text-xl">{totalVolunteers}</span>
+          </p>
+          <p className="text-base text-gray-700 mb-2">
+            This Month: <span className="font-bold text-orange-500 text-xl">{volunteersCount}</span>
+          </p>
+          <p className="text-base text-gray-700">
+            <span className="ml-1 text-sm text-gray-500">Percentage of this month increase volunteers</span>
+          <span className="text-orange-500 font-bold"> {volunteersPercentage}%</span> 
+          </p>
+        </div>
 
           <div className="bg-white p-6 rounded-xl shadow">
             <h2 className="text-lg font-semibold mb-2 text-gray-700">

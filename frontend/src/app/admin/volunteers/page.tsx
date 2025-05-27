@@ -85,7 +85,8 @@ export default function VolunteerPage() {
   const [volunteersGraph, setVolunteersGraph] = useState<{ labels: string[]; maleData: number[]; femaleData: number[]  , totalVolunteer : number , growthPercentage : number }>({ labels: [], maleData: [], femaleData: [] , totalVolunteer : 0 , growthPercentage : 0 });
 
   const chartRef = useRef<ChartJS<"line">>(null);
-  const API_URL = "https://portal-backend-deploy.up.railway.app/users/"; // Your API endpoint
+  
+  const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/users`; // Your API endpoint
 
   // Function to get the Authorization header
   const getAuthHeaders = async () => {
@@ -297,7 +298,7 @@ export default function VolunteerPage() {
     try {
       // No auth header needed for this endpoint if it's publicly accessible for invites
       const response = await fetch(
-        "https://portal-backend-deploy.up.railway.app/email/send-password",
+        `${process.env.NEXT_PUBLIC_API_URL}/email/send-password`,
         {
           method: "POST",
           headers: {
