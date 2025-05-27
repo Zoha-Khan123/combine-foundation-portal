@@ -19,11 +19,15 @@ const VolunteersPage = () => {
 
   // API URL for your users
   const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/users`;
+  const local_host = `${process.env.NEXT_PUBLIC_LOCAL_HOST}/users`
+  console.log("api",local_host);
+  
 
   useEffect(() => {
     const fetchVolunteers = async () => {
       try {
         const response = await axios.get(API_URL);
+        //  console.log("api",response);
         const allUsers = response.data;
 
         // Filter only users with the role 'volunteer'
