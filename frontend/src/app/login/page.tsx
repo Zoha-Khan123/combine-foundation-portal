@@ -5,6 +5,8 @@ import Image from "next/image";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 import { jwtVerify } from "jose";
+import CombineLogo from "../volunteer/assest/logo.png";
+
 
 export type TokenPayload = {
   role: string;
@@ -59,16 +61,17 @@ const Login = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
       <>
-        <div className="flex flex-col justify-center items-center">
-          <Image
-            src="/logo.png"
-            alt="Combine Foundation Logo"
-            height={160}
-            width={160}
-            className="h-24 w-24 sm:h-32 sm:w-32 md:h-40 md:w-40"
-          />
+       <div className="flex flex-col items-center justify-center mb-4">
+            <Image
+              src={CombineLogo}
+              alt="Combine Foundation Logo"
+              height={160}
+              width={160}
+              className="h-24 w-24 sm:h-32 sm:w-32 md:h-40 md:w-40"
+              priority
+            />
           <h1 className="text-3xl font-bold">Welcome to Combine Foundation</h1>
-        </div>
+          </div>
 
         <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
           <h1 className="text-center text-2xl font-semibold text-gray-800 mb-6">

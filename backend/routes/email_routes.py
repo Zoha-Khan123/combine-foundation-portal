@@ -37,6 +37,7 @@ def forgot_password(req: EmailRequest):
         return {"message": "Password reset not allowed. Please contact support."}
 
     password = generate_password()
+    print(password)
     email_sent = send_email(req.email, password, user["name"])
     db_updated = update_password(req.email, password)
 

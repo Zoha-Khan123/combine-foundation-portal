@@ -26,8 +26,11 @@ const ForgotPassword = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: email.trim() }),
       });
-
+      console.log("Response",response);
+      
       const data = await response.json();
+      console.log("data",data);
+      
 
       if (response.ok) {
         toast.success(data.message || "Email sent successfully!");
