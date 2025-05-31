@@ -30,7 +30,7 @@ export default function DashboardProfile() {
 
           
 
-          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`);
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/`);
           if (!response.ok) throw new Error("Failed to fetch users");
 
           const users = await response.json();
